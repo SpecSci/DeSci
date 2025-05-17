@@ -179,3 +179,7 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
    the contents of that file to `autobuild.sh`, make it executable and run it.
    The script installs dependencies, builds all components and deploys the
    canisters to the IC mainnet.
+
+## Viewing Logs
+
+Avoid using `tail` to inspect logs because it may hang. Use `less` or `cat` instead.

@@ -18,8 +18,10 @@ export interface Stats {
   reputation: number
 }
 
-export function useDummySpectra() {
-  const { data } = useQuery(['spectra'], () => new Promise<Spectrum[]>((res) => setTimeout(() => res(spectra), 500)))
+export function useDummySpectra(): Spectrum[] {
+  const { data } = useQuery<Spectrum[]>(['spectra'], () =>
+    new Promise<Spectrum[]>((res) => setTimeout(() => res(spectra), 500))
+  )
   return data || spectra
 }
 

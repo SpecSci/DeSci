@@ -146,13 +146,21 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
    cd DeSci
    ```
 
-2. Build the Rust canister:
+2. Install the recommended dfx version and build the Rust canister:
+
+   ```bash
+   dfxvm install 0.18.0
+   dfxvm default 0.18.0
+   ```
+
+   Then build the canister:
 
    ```bash
    cargo build --release
    ```
 
-3. Install and build the frontend from the `spectranet` folder:
+3. Install and build the frontend from the `spectranet` folder (there is no
+   `frontend` directory in this repo):
 
    ```bash
    cd spectranet

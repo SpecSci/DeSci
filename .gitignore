@@ -1,0 +1,10 @@
+# Rust
+/target
+**/*.wasm
+
+# Node
+spectranet/node_modules/
+spectranet/.next/
+
+# Misc
+.DS_Store

@@ -3,9 +3,16 @@ DeSci Decentralized Science Project featuring Spectrometry Data LLM
 
 This project contains 3 Internet Computer (IC) canisters
 
-1 Frontend, using nextjs
-1 Spectrometry Economy
-1 Statistics, easy quick to retrieve data/info about activity
+-
+1 Frontend, using nextjs;
+-
+1 Spectrometry Economy;
+-
+1 Statistics, easy quick to retrieve data/info about activity;
+-
+
+use 1 single dfx.json file in the main root that builds and deploys all canisters to both local and ic network if desired to push to mainnet.
+
 
 
 Scaffold a brand‑new Next.js 14 (App Router) project named **spectranet** with TypeScript, Tailwind CSS, shadcn/ui, Recharts, heroicons, and @tanstack/react‑query.  

@@ -1,0 +1,61 @@
+This file contains an example script (autobuild.sh) that installs dependencies,
+clones the project, builds all components and deploys to the Internet Computer.
+Copy the script below into a file named `autobuild.sh` and run it from a shell.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORKDIR="${WORKDIR:-$PWD}"
+BUILD_DIR="$WORKDIR/despec_fresh"
+
+# Ensure a clean working directory
+rm -rf "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"
+cd "$BUILD_DIR"
+
+# Install required system packages
+sudo apt-get update
+sudo apt-get install -y git cargo nodejs npm
+
+# Clone the repository
+git clone https://github.com/SpecSci/DeSci.git
+cd DeSci
+
+# Install DFX via dfxvm and set version 0.18.0
+if ! command -v dfxvm >/dev/null 2>&1; then
+  curl -L https://internetcomputer.org/install.sh | bash -s -- -y
+  export PATH="$HOME/bin:$PATH"
+fi
+dfxvm install 0.18.0
+dfxvm default 0.18.0
+
+# Build the Rust canister
+cargo build --release
+
+# Build the frontend
+pushd spectranet
+npm install
+npm run build
+popd
+
+# Prepare identity and network
+export DFX_NETWORK=ic
+dfx identity use nopass || dfx identity new nopass --storage-mode plaintext
+dfx identity use nopass
+
+echo "Principal (for reference):"
+dfx identity get-principal
+echo "Account ID (send ICP here):"
+dfx ledger account-id
+
+read -p "Fund your account ID with ICP externally, then press Enter to continue..." dummy
+
+# Check balance and deploy
+dfx ledger balance
+dfx deploy --network ic
+dfx canister --network ic status --all
+
+echo "Deployment completed successfully."
+```
+

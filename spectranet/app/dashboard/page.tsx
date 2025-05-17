@@ -1,9 +1,9 @@
 'use client'
 import StatPanel from '../../components/StatPanel'
-import { useDashboardStats } from '../../lib/dummyData'
+import { useDashboardStats, type Stats } from '../../lib/dummyData'
 
 export default function DashboardPage() {
-  const stats = useDashboardStats()
+  const stats: Stats = useDashboardStats()
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>

@@ -136,3 +136,33 @@ Replace lib/dummyData.ts with real ICP canister calls when ready.
 
 
 Each page/component should have minimal working TSX, Tailwind classes, and placeholder text so the site builds successfully on first run.
+
+## Build and Deployment
+
+1. Clone the repository and enter the project root:
+
+   ```bash
+   git clone https://github.com/SpecSci/DeSci.git
+   cd DeSci
+   ```
+
+2. Build the Rust canister:
+
+   ```bash
+   cargo build --release
+   ```
+
+3. Install and build the frontend from the `spectranet` folder:
+
+   ```bash
+   cd spectranet
+   npm install
+   npm run build
+   ```
+
+4. Deploy the canisters using DFX:
+
+   ```bash
+   dfx deploy
+   ```
+

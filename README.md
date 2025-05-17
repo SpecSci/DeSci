@@ -158,6 +158,8 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
    ```bash
    cargo build --release
    ```
+   If `cargo build` fails to connect to crates.io due to network issues,
+   cancel with `Ctrl+C` and retry when a connection is available.
 
 3. Install and build the frontend from the `spectranet` folder (there is no
    `frontend` directory in this repo):
@@ -183,3 +185,14 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
 ## Viewing Logs
 
 Avoid using `tail` to inspect logs because it may hang. Use `less` or `cat` instead.
+
+### Known Issues
+
+Running `npm install` inside the `spectranet` directory hung during testing
+when network access was slow. If this occurs, cancel the command with `Ctrl+C`
+and retry with the `--silent` flag or ensure the network connection is stable.
+
+Running `cargo build` may also fail to download crates because of temporary
+network problems. TypeScript checks (`npx tsc --noEmit`) require `@types/node`
+and `@types/react` to be installed; if package installation fails, these checks
+will report missing type definition errors.

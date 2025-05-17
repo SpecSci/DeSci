@@ -183,3 +183,13 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
 ## Viewing Logs
 
 Avoid using `tail` to inspect logs because it may hang. Use `less` or `cat` instead.
+
+## Avoiding commands that hang
+
+Some commands may freeze when they require network access or wait indefinitely. If a command hangs,
+abort it with `Ctrl+C` and list it here so it isn't run again.
+
+### Known hanging commands
+
+- `npm install` in the `spectranet` folder (attempted during build; it stalled due to network
+  restrictions).

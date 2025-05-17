@@ -174,3 +174,8 @@ Each page/component should have minimal working TSX, Tailwind classes, and place
    dfx deploy
    ```
 
+
+5. For a fully automated setup you can use the script in `autobuild.txt`. Copy
+   the contents of that file to `autobuild.sh`, make it executable and run it.
+   The script installs dependencies, builds all components and deploys the
+   canisters to the IC mainnet.

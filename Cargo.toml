@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-candid = "0.10.14"
+candid = "0.8"
 ic-cdk = "0.9"
 ic-cdk-macros = "0.9"
 serde = { version = "1.0", features = ["derive"] }

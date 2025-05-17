@@ -4,19 +4,19 @@
 use ic_cdk::api::{caller, time};
 use ic_cdk::storage;
 use ic_cdk_macros::{init, pre_upgrade, post_upgrade, query, update};
-use candid::{CandidType, Deserialize, Nat, Principal};
+use ic_cdk::export::{candid::{CandidType, Deserialize}, Principal};
 use serde::Serialize;
 use std::cell::RefCell;
 use std::collections::{BTreeMap, HashMap, HashSet};
 
-#[derive(Clone, CandidType, Deserialize)]
+#[derive(Clone, CandidType, Deserialize, Serialize)]
 pub struct SpectroAgent {
     pub principal: Principal,
     pub trust_score: i32,
     pub registered_at: u64,
 }
 
-#[derive(Clone, CandidType, Deserialize)]
+#[derive(Clone, CandidType, Deserialize, Serialize)]
 pub struct SpectroData {
     pub id: u64,
     pub submitter: Principal,
@@ -27,12 +27,23 @@ pub struct SpectroData {
     pub downvotes: HashSet<Principal>,
 }
 
-#[derive(Clone, CandidType, Deserialize, Default, Serialize)]
+#[derive(Clone, CandidType, Deserialize, Serialize)]
 pub struct SpectroState {
     pub oracle: Principal,
     pub agents: HashMap<Principal, SpectroAgent>,
     pub data: HashMap<u64, SpectroData>,
     pub next_data_id: u64,
+}
+
+impl Default for SpectroState {
+    fn default() -> Self {
+        Self {
+            oracle: Principal::anonymous(),
+            agents: HashMap::new(),
+            data: HashMap::new(),
+            next_data_id: 0,
+        }
+    }
 }
 
 #[derive(CandidType, Deserialize, Serialize, Clone)]

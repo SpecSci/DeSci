@@ -1,8 +1,4 @@
-interface Stats {
-  uploads: number
-  royalties: number
-  reputation: number
-}
+import type { Stats } from '../lib/dummyData'
 
 export default function StatPanel({ stats }: { stats: Stats }) {
   return (

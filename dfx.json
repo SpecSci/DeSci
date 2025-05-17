@@ -1,0 +1,14 @@
+{
+  "canisters": {
+    "spectro_despec": {
+      "type": "custom",
+      "build": "cargo build --target wasm32-unknown-unknown --release",
+      "candid": "src/despec_canister.did",
+      "wasm": "target/wasm32-unknown-unknown/release/despec_canister.wasm"
+    },
+    "frontend": {
+      "type": "assets",
+      "source": ["spectranet"]
+    }
+  }
+}

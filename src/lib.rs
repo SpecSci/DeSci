@@ -4,7 +4,7 @@
 use ic_cdk::api::{caller, time};
 use ic_cdk::storage;
 use ic_cdk_macros::{init, pre_upgrade, post_upgrade, query, update};
-use ic_cdk::export::{candid::{CandidType, Deserialize}, Principal};
+use candid::{CandidType, Deserialize, Principal};
 use serde::Serialize;
 use std::cell::RefCell;
 use std::collections::{BTreeMap, HashMap, HashSet};

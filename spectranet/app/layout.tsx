@@ -1,4 +1,4 @@
-import './globals.css'
+import '../styles/globals.css'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'

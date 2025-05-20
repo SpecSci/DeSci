@@ -1,0 +1,167 @@
+type Account = record {
+  owner : principal;
+  subaccount : opt Subaccount;
+};
+
+type AllowanceArgs = record {
+  account : Account;
+  spender : Account;
+};
+
+type Allowance = record {
+  allowance : Tokens;
+  expires_at : opt Timestamp;
+};
+
+type ApproveArgs = record {
+  from_subaccount : opt Subaccount;
+  spender : Account;
+  amount : Tokens;
+  expected_allowance : opt Tokens;
+  expires_at : opt Timestamp;
+  fee : opt Tokens;
+  memo : opt blob;
+  created_at_time : opt Timestamp;
+};
+
+type ApproveError = variant {
+  BadFee : record { expected_fee : Tokens };
+  InsufficientFunds : record { balance : Tokens };
+  AllowanceChanged : record { current_allowance : Tokens };
+  Expired : record { ledger_time : Timestamp };
+  TooOld;
+  CreatedInFuture : record { ledger_time : Timestamp };
+  Duplicate : record { duplicate_of : BlockIndex };
+  TemporarilyUnavailable;
+  GenericError : record { error_code : nat; message : text };
+};
+
+type ApproveResult = variant {
+  Ok : BlockIndex;
+  Err : ApproveError;
+};
+
+type BlockIndex = nat;
+
+type SpectroAgent = record {
+  principal_id : principal;
+  trust_score : int32;
+  registered_at : nat64;
+};
+
+type SpectroData = record {
+  id : nat64;
+  submitter : principal;
+  created_at : nat64;
+  trust_score : int32;
+  metadata : vec record { text; text };
+  oracle_field : text;
+  upvotes : vec principal;
+  downvotes : vec principal;
+};
+
+type Subaccount = blob;
+type Timestamp = nat64;
+type Tokens = nat;
+
+type TransferArg = record {
+  from_subaccount : opt Subaccount;
+  to : Account;
+  amount : Tokens;
+  fee : opt Tokens;
+  memo : opt blob;
+  created_at_time : opt Timestamp;
+};
+
+type TransferError = variant {
+  BadFee : record { expected_fee : Tokens };
+  BadBurn : record { min_burn_amount : Tokens };
+  InsufficientFunds : record { balance : Tokens };
+  TooOld;
+  CreatedInFuture : record { ledger_time : Timestamp };
+  TemporarilyUnavailable;
+  Duplicate : record { duplicate_of : BlockIndex };
+  GenericError : record { error_code : nat; message : text };
+};
+
+type TransferResult = variant {
+  Ok : BlockIndex;
+  Err : TransferError;
+};
+
+type TransferFromArgs = record {
+  spender_subaccount : opt Subaccount;
+  from : Account;
+  to : Account;
+  amount : Tokens;
+  fee : opt Tokens;
+  memo : opt blob;
+  created_at_time : opt Timestamp;
+};
+
+type TransferFromError = variant {
+  BadFee : record { expected_fee : Tokens };
+  BadBurn : record { min_burn_amount : Tokens };
+  InsufficientFunds : record { balance : Tokens };
+  InsufficientAllowance : record { allowance : Tokens };
+  TooOld;
+  CreatedInFuture : record { ledger_time : Timestamp };
+  Duplicate : record { duplicate_of : BlockIndex };
+  TemporarilyUnavailable;
+  GenericError : record { error_code : nat; message : text };
+};
+
+type TransferFromResult = variant {
+  Ok : BlockIndex;
+  Err : TransferFromError;
+};
+
+type Result = variant {
+  Ok : nat64;
+  Err : text;
+};
+
+type Result_1 = variant {
+  Ok;
+  Err : text;
+};
+
+type MetadataValue = variant {
+  Int : int;
+  Nat : nat;
+  Blob : blob;
+  Text : text;
+};
+
+service : {
+  // ICRC-1 Token Methods
+  icrc1_balance_of : (Account) -> (Tokens) query;
+  icrc1_decimals : () -> (nat8) query;
+  icrc1_fee : () -> (Tokens) query;
+  icrc1_metadata : () -> (vec record { text; MetadataValue }) query;
+  icrc1_minting_account : () -> (opt Account) query;
+  icrc1_name : () -> (text) query;
+  icrc1_symbol : () -> (text) query;
+  icrc1_total_supply : () -> (Tokens) query;
+  icrc1_transfer : (TransferArg) -> (TransferResult);
+
+  // ICRC-2 Approval Methods
+  icrc2_approve : (ApproveArgs) -> (ApproveResult);
+  icrc2_allowance : (AllowanceArgs) -> (Allowance) query;
+  icrc2_transfer_from : (TransferFromArgs) -> (TransferFromResult);
+
+  // Spectro Data Methods
+  register_agent : () -> (Result_1);
+  get_agent : (principal) -> (opt SpectroAgent) query;
+  submit_spectrodata : (vec record { text; text }) -> (Result);
+  get_spectrodata : (nat64) -> (opt SpectroData) query;
+  search_spectrodata : (vec record { text; text }, nat64) -> (vec SpectroData) query;
+  upvote_spectrodata : (nat64) -> (Result_1);
+  downvote_spectrodata : (nat64) -> (Result_1);
+  
+  // Oracle Methods
+  oracle_update_trust_score : (nat64, int32) -> (Result_1);
+  oracle_update_agent_trust : (principal, int32) -> (Result_1);
+  get_stats_blob : () -> (blob) query;
+  update_stats_blob : (blob) -> (Result_1);
+}; 

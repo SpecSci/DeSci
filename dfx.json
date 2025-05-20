@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "spectranet_canister_backend": {
+      "candid": "src/spectranet_canister_backend/src/lib.did",
+      "package": "spectranet_canister_backend",
+      "type": "rust"
+    },
+    "spectranet_canister_frontend": {
+      "dependencies": [
+        "spectranet_canister_backend"
+      ],
+      "frontend": {
+        "entrypoint": "frontend/out/index.html"
+      },
+      "source": [
+        "frontend/out"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
